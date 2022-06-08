@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/dot-notation */
+/* eslint-disable @typescript-eslint/quotes */
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { NewsFeedsService } from '../services/news-feeds.service';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +10,17 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  articles: any;
 
-  constructor() {}
+  constructor(private newsServices: NewsFeedsService) {
+    this.loadNews();
+  }
+  loadNews(){
+    this.newsServices.getNews("top-headlines?country=us").subscribe(news => {
+      this.articles = news['articles'];
+      console.log(this.articles);
+    });
+
+  }
 
 }
